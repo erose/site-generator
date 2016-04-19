@@ -1,0 +1,6 @@
+*.py[cod]
+*.md
+posts
+static
+venv
+rendered_site

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Eli's Blog</title>
+    <link rel="stylesheet" href="{{site_url}}/static/css/base.css">
+    <link rel="stylesheet" href="{{site_url}}/static/css/post.css">
+    <link rel="stylesheet" href="{{site_url}}/static/css/page.css">
+    <link rel="stylesheet" href="{{site_url}}/static/css/main.css">
+    <link rel="stylesheet" href="{{site_url}}/static/css/katex.min.css">
+    <script src="{{site_url}}/static/js/lodash.min.js"></script>
+    <script src="{{site_url}}/static/js/jquery-2.2.2.js"></script>
+    <script src="{{site_url}}/static/js/katex.min.js"></script>
+    <script src="{{site_url}}/static/js/auto-render.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <a class="title" href="{{site_url}}/index.html">Eli Rose</a> 's
+            <a href="{{site_url}}/about.html">about</a>
+            &sdot;
+            <a href="{{site_url}}/turing.html">turing</a>
+            &sdot;
+            <a href="{{site_url}}/fraction_pattern.html">fraction pattern</a>
+<!--             &sdot;
+            <a href="{{site_url}}/markov_text.html">text generator</a> -->
+        </div>
+
+        <div id="content" class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+<script>
+    renderMathInElement(
+        document.getElementById("content"), {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        }
+    )
+</script>
+</body>
+</html>
