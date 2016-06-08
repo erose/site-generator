@@ -1,23 +1,28 @@
 #!/usr/bin/env python
-OUTPUT_DIR = 'rendered_site'
-TEMPLATES_DIR = 'templates'
-PAGE_NAMES = [
-    "about.md", "turing.md", "fraction_pattern.md", "markov_text.md"
-]
-PAGES_IN_DIR = '.'
-PAGES_OUT_DIR = 'rendered_site'
-POSTS_IN_DIR = 'posts'
-POSTS_OUT_DIR = 'rendered_site/posts'
-STATIC_IN_DIR = 'static'
-STATIC_OUT_DIR = 'rendered_site/static'
-
-SITE_URL = 'http://localhost:8000'
-PRODUCTION_SITE_URL = 'http://reallyeli.com'
 
 import os, sys, glob, shutil, time, subprocess
 from os.path import join, getmtime
 import util
 import markdown, jinja2
+
+OUTPUT_DIR = 'dev_site'
+SITE_URL = 'http://localhost:8000'
+if __name__ == "__main__":
+    if sys.argv[1] == "publish":
+        OUTPUT_DIR = 'rendered_site'
+        SITE_URL = util.SITE_URL = 'http://reallyeli.com'
+
+TEMPLATES_DIR = 'templates'
+PAGE_NAMES = [
+    "about.md", "turing.md", "fraction_pattern.md", "markov_text.md",
+    "password-hasher.md"
+]
+PAGES_IN_DIR = '.'
+PAGES_OUT_DIR = OUTPUT_DIR
+POSTS_IN_DIR = 'posts'
+POSTS_OUT_DIR = OUTPUT_DIR + '/posts'
+STATIC_IN_DIR = 'static'
+STATIC_OUT_DIR = OUTPUT_DIR + '/static'
 
 # Tell Jinja where to load templates.
 from jinja2 import Environment, FileSystemLoader
@@ -25,6 +30,7 @@ JINJA_ENV = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
 
 def render_posts():
     """ Writes out markdown posts via template into the output directory. """
+    os.makedirs(POSTS_OUT_DIR, exist_ok=True)
     util.clean_folder(POSTS_OUT_DIR)
 
     for name in os.listdir(POSTS_IN_DIR):
@@ -63,7 +69,7 @@ def render_main():
 
         posts.append(data)
 
-    with open('rendered_site/index.html', "w", encoding="utf-8") as f:
+    with open(OUTPUT_DIR + '/index.html', "w", encoding="utf-8") as f:
         f.write(template.render(site_url=SITE_URL, posts=posts))
 
 def render_pages():
@@ -103,7 +109,7 @@ def static_files():
 
 def render_static():
     """ Copy static files to the output directory. """
-    shutil.rmtree(join(OUTPUT_DIR, 'static'))
+    shutil.rmtree(join(OUTPUT_DIR, 'static'), ignore_errors=True)
     for filename in static_files():
         render_static_file(filename)
 
@@ -119,7 +125,7 @@ def render():
 
 def serve():
     server_proc = subprocess.Popen(
-        ["python", "-m", "http.server", "8000"], cwd='rendered_site'
+        ["python", "-m", "http.server", "8000"], cwd=OUTPUT_DIR
     )
 
     POSTS = glob.glob(join(POSTS_IN_DIR, "*"))
@@ -183,8 +189,6 @@ if __name__ == "__main__":
     if sys.argv[1] == "render":
         render()
     elif sys.argv[1] == "publish":
-        SITE_URL = PRODUCTION_SITE_URL
-        util.SITE_URL = PRODUCTION_SITE_URL
         render()
     elif sys.argv[1] == "serve":
         serve()
