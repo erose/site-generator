@@ -6,11 +6,9 @@ import util
 import markdown, jinja2
 
 OUTPUT_DIR = 'dev_site'
-SITE_URL = 'http://localhost:8000'
 if __name__ == "__main__":
     if sys.argv[1] == "publish":
         OUTPUT_DIR = 'rendered_site'
-        SITE_URL = util.SITE_URL = 'http://reallyeli.com'
 
 TEMPLATES_DIR = 'templates'
 PAGE_NAMES = [
@@ -46,7 +44,7 @@ def render_post(name):
     # Hydrate the template and write it out.
     out_filename = join(POSTS_OUT_DIR, name).replace(".md", ".html")
     with open(out_filename, "w", encoding="utf-8") as f:
-        f.write(template.render(site_url=SITE_URL, **data))
+        f.write(template.render(**data))
 
 def render_main():
     template = JINJA_ENV.get_template('index.html')
@@ -61,8 +59,8 @@ def render_main():
             continue
 
         # Add some extra metadata for convenience.
-        data['url'] = "{}/posts/{}".format(
-            SITE_URL, data["name"].replace(".md", ".html")
+        data['url'] = "/posts/{}".format(
+            data["name"].replace(".md", ".html")
         )
         # Truncate content to provide a preview.
         data['content'] = util.first_n_tags(data['content'], 3)
@@ -70,7 +68,7 @@ def render_main():
         posts.append(data)
 
     with open(OUTPUT_DIR + '/index.html', "w", encoding="utf-8") as f:
-        f.write(template.render(site_url=SITE_URL, posts=posts))
+        f.write(template.render(posts=posts))
 
 def render_pages():
     """ Writes out pages into the output directory. """
@@ -92,7 +90,6 @@ def render_page(name):
     with open(out_filename, "w", encoding="utf-8") as f:
         f.write(
             template.render(
-                site_url=SITE_URL,
                 content=data["content"],
                 title=data["title"]
             )

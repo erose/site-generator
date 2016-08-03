@@ -1,7 +1,6 @@
 import datetime, itertools, glob, os
 from os.path import join
 import markdown, bs4
-from manage import SITE_URL
 
 def ord_name(day):
     """ Takes in a day of the month, gives back '3rd', '15th', etc. """
@@ -32,7 +31,6 @@ def parse_tags(tagstring):
     return [dict(name=tag) for tag in tagstring.split(", ")]
 
 def parse_content(string):
-    string = string.replace("SITE_URL", SITE_URL)
     return markdown.markdown(string)
 
 def parse_md(file_obj):
