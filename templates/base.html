@@ -4,30 +4,35 @@
     <meta charset="UTF-8">
     <title>Eli's Blog</title>
     <link rel="stylesheet" href="/static/css/base.css">
-    <link rel="stylesheet" href="/static/css/post.css">
-    <link rel="stylesheet" href="/static/css/page.css">
-    <link rel="stylesheet" href="/static/css/main.css">
-    <link rel="stylesheet" href="/static/css/katex.min.css">
+    <link rel="stylesheet" href="/static/css/katex.css">
+
     <script src="/static/js/lodash.min.js"></script>
     <script src="/static/js/jquery-2.2.2.js"></script>
     <script src="/static/js/katex.min.js"></script>
     <script src="/static/js/auto-render.min.js"></script>
-    <script src="/static/js/sjcl.js"></script>
-    <script src="/static/js/react.js"></script>
-    <script src="/static/js/react-dom.js"></script>
+
+    {% block head %}
+    {% endblock %}
 </head>
 
 <body>
     <div class="container">
         <div class="header">
             <a class="title" href="/index.html">Eli Rose</a> 's
+            <a href="/index.html">posts</a>
+            &sdot;
             <a href="/about.html">about</a>
             &sdot;
-            <a href="/turing.html">turing</a>
+            <div class="dropdown">
+                <a href="javascript:void(0)">code projects</a>
+                <div class="dropdown-content">
+                    <div>&sdot; <a href="/turing.html">turing</a></div>
+                    <div>&sdot; <a href="/fraction_pattern.html">fraction pattern</a></div>
+                    <div>&sdot; <a href="/markov_text.html">literature scrambler</a></div>
+                </div>
+            </div>
             &sdot;
-            <a href="/fraction_pattern.html">fraction pattern</a>
-            &sdot;
-            <a href="/markov_text.html">literature scrambler</a>
+            <a href="/media_log.html">media log</a>
         </div>
 
         <div id="content" class="content">

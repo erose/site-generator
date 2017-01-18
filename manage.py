@@ -13,7 +13,7 @@ if __name__ == "__main__":
 TEMPLATES_DIR = 'templates'
 PAGE_NAMES = [
     "about.md", "turing.md", "fraction_pattern.md", "markov_text.md",
-    "password_hasher.md"
+    "password_hasher.md", "media_log.md"
 ]
 PAGES_IN_DIR = '.'
 PAGES_OUT_DIR = OUTPUT_DIR
@@ -82,7 +82,7 @@ def render_pages():
         render_page(name)
 
 def render_page(name):
-    template = JINJA_ENV.get_template('post.html')
+    template = JINJA_ENV.get_template('page.html')
     data = util.parse_md(open(name, "r", encoding="utf-8"))
 
     # Hydrate the template with the page.md dict and write it out.

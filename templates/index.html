@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="/static/css/index.css">
+<link rel="stylesheet" href="/static/css/post.css">
+{% endblock %}
+
 {% block content %}
 {% for post in posts|sort(attribute='date', reverse=True) %}
     {% if not loop.first %}<hr>{% endif %}
