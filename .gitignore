@@ -1,6 +1,7 @@
 *.py[cod]
 *.md
 posts
+data
 static
 venv
 rendered_site
