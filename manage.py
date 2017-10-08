@@ -21,6 +21,8 @@ POSTS_IN_DIR = 'posts'
 POSTS_OUT_DIR = OUTPUT_DIR + '/posts'
 STATIC_IN_DIR = 'static'
 STATIC_OUT_DIR = OUTPUT_DIR + '/static'
+DATA_IN_DIR = 'data'
+DATA_OUT_DIR = OUTPUT_DIR + '/data'
 
 # Tell Jinja where to load templates.
 from jinja2 import Environment, FileSystemLoader
@@ -101,17 +103,30 @@ def static_files():
             full_path = join(dirpath, filename)
             yield full_path
 
+def data_files():
+    for dirpath, _, filenames in os.walk(DATA_IN_DIR):
+        for filename in filenames:
+            full_path = join(dirpath, filename)
+            yield full_path
+
 def render_static():
     """ Copy static files to the output directory. """
-    shutil.rmtree(join(OUTPUT_DIR, 'static'), ignore_errors=True)
+    shutil.rmtree(STATIC_OUT_DIR, ignore_errors=True)
     for filename in static_files():
-        render_static_file(filename)
+        copy_file_to(filename, filename.replace(STATIC_IN_DIR, STATIC_OUT_DIR))
 
-def render_static_file(name):
-    os.makedirs(join(OUTPUT_DIR, os.path.dirname(name)), exist_ok=True)
-    shutil.copy(name, join(OUTPUT_DIR, name))
+def render_data():
+    """ Copy data files to the output directory. """
+    shutil.rmtree(DATA_OUT_DIR, ignore_errors=True)
+    for filename in data_files():
+        copy_file_to(filename, filename.replace(DATA_IN_DIR, DATA_OUT_DIR))
+
+def copy_file_to(old_full_path, new_full_path):
+    os.makedirs(os.path.dirname(new_full_path), exist_ok=True)
+    shutil.copy(old_full_path, new_full_path)
 
 def render():
+    render_data()
     render_static()
     render_pages()
     render_posts()
