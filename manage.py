@@ -13,7 +13,7 @@ if __name__ == "__main__":
 TEMPLATES_DIR = 'templates'
 PAGE_NAMES = [
     "about.md", "turing.md", "fraction_pattern.md", "markov_text.md",
-    "password_hasher.md", "media_log.md", "game_of_life.md"
+    "password_hasher.md", "media_log.md", "game_of_life.md", "quick_challenges.md"
 ]
 PAGES_IN_DIR = '.'
 PAGES_OUT_DIR = OUTPUT_DIR
@@ -177,7 +177,8 @@ def serve():
                         .format(filename)
                     )
                     static_file_statuses[filename] = time.time()
-                    render_static_file(filename)
+
+                    copy_file_to(filename, filename.replace(STATIC_IN_DIR, STATIC_OUT_DIR))
                     print("Re-rendering complete.")
 
             for filename, last_updated in template_statuses.items():
