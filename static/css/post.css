@@ -1,0 +1,31 @@
+.post-header {
+    margin-bottom: 10px;
+    margin-top: 25px;
+    font-family: 'Linden Hill', Georgia, serif;
+    text-align: center;
+}
+.post-content {
+    overflow: hidden;
+}
+.post-title {
+    font-size: 2em;
+    line-height: 1.0;
+}
+.post-tags {
+    font-size: 10pt;
+}
+.post-date {
+    font-size: 10pt;
+    color: Gray;
+}
+.post-floating-image { /* Book covers, etc. in review-style posts. */
+    float: right;
+    margin: 10px;
+}
+blockquote {
+    /* Mimic stackexchange block quote style. */
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff9e3;
+    border-left: 2px solid #ffeb8e;
+}

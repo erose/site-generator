@@ -2,7 +2,8 @@
 *.md
 posts
 data
-static
+static/images
+static/js
 venv
 rendered_site
 dev_site
