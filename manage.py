@@ -5,10 +5,7 @@ from os.path import join, getmtime
 import util
 import markdown, jinja2
 
-OUTPUT_DIR = 'dev_site'
-if __name__ == "__main__":
-    if sys.argv[1] == "publish":
-        OUTPUT_DIR = 'rendered_site'
+OUTPUT_DIR = 'rendered_site'
 
 TEMPLATES_DIR = 'templates'
 PAGE_NAMES = [
@@ -196,9 +193,7 @@ def serve():
         raise
 
 if __name__ == "__main__":
-    if sys.argv[1] == "render":
-        render()
-    elif sys.argv[1] == "publish":
+    if sys.argv[1] == "publish":
         render()
     elif sys.argv[1] == "serve":
         serve()
