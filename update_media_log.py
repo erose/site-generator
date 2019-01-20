@@ -1,4 +1,5 @@
 import json
+import datetime
 from datetime import date
 import contextlib
 import readline # This line causes it to be implicitly used by input(). It provides better line-editing and history
@@ -53,7 +54,7 @@ class MediaLogItem:
 
 class MediaLogItemJsonEncoder(json.JSONEncoder):
   def __init__(self):
-    super().__init__(self, indent=4, sort_keys=True, ensure_ascii=False)
+    super().__init__(indent=4, sort_keys=True, ensure_ascii=False)
 
   # @param [Object]
   def default(self, o):
@@ -77,13 +78,13 @@ class AddNewItemsInterface:
   def get_new_item(self):
     title = input("Title? ")
 
-    with self.completer(item_types_completer):
+    with self.completer(self.item_types_completer):
       type = input("Type? ")
 
     author = input("Author? ")
 
-    with self.completer(current_date_completer):
-      date_completed = input("Date Completed? ")
+    with self.completer(self.current_date_completer):
+      date_completed = datetime.datetime.fromisoformat(input("Date Completed? "))
       date_completed = date_completed.strftime("%B %-d, %Y") # e.g. December 14, 2018
 
     return MediaLogItem(
@@ -108,7 +109,7 @@ class AddNewItemsInterface:
   # @param [String]
   # @param [Integer]
   # @return [String, None]
-  @classmethod
+  @staticmethod
   def item_types_completer(text, state):
     possible_types = sorted(string for string in MediaLogItem.TYPES if string.startswith(text))
     return possible_types[state] if possible_types else None
@@ -116,7 +117,7 @@ class AddNewItemsInterface:
   # @param [String]
   # @param [Integer]
   # @return [String, None]
-  @classmethod
+  @staticmethod
   def current_date_completer(_text, state):
     current_date_formatted = date.today().isoformat()
     if state > 0: return None

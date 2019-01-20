@@ -1,4 +1,4 @@
 Jinja2==2.8
-Markdown==2.6.5
+Markdown==3.0.1
 beautifulsoup4==4.5.0
 inflection==0.3.1
