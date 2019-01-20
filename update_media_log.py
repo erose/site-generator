@@ -1,8 +1,8 @@
 import json
-import inflection # Provides camelCase --> snake_case conversion.
-# Not used in the code, but this line causes it to be implicitly used by input(). It provides better
-# line-editing and history functionality.
-import readline
+from datetime import date
+import contextlib
+import readline # This line causes it to be implicitly used by input(). It provides better line-editing and history
+# functionality.
 
 class MediaLogItem:
   ALBUM = 'album'
@@ -44,8 +44,12 @@ class MediaLogItem:
       'title': self.title,
       'type': self.type,
       'author': self.author,
-      'dateCompleted': self.dateCompleted,
+      'date_completed': self.date_completed,
     }
+
+  # @return [None]
+  def pretty_printed(self):
+    return MediaLogItemJsonEncoder().encode(self.as_json())
 
 class MediaLogItemJsonEncoder(json.JSONEncoder):
   def __init__(self):
@@ -58,40 +62,97 @@ class MediaLogItemJsonEncoder(json.JSONEncoder):
     else:
       return super().default(self, o)
 
-# @param [Array<MediaLogItem>]
+# TODO: Explain.
 # @param [String]
-def write_back(media_log_items, destination_filename):
-  encoder = MediaLogItemJsonEncoder()
-  json_representation = encoder.encode({ 'objects': media_log_items })
-  
-  with open(destination_filename, 'w') as file:
-    print(json_representation, file=file)
+# @param [Integer]
+# @return [String, None]
+def item_types_completer(text, state):
+  possible_types = sorted(string for string in MediaLogItem.TYPES if string.startswith(text))
+  return possible_types[state] if possible_types else None
 
-# @return [MediaLogItem]
-def accept_new_item_from_user():
-  title = input("Title? ")
-  type = input("Type? ")
-  author = input("Author? ")
-  date_completed = input("Date Completed? ")
+# TODO: Explain.
+# @param [String]
+# @param [Integer]
+# @return [String, None]
+def current_date_completer(_text, state):
+  current_date_formatted = date.today().isoformat()
+  if state > 0: return None
+  return current_date_formatted
 
-  return MediaLogItem(
-    title=title,
-    type=type,
-    author=author,
-    date_completed=date_completed
-  )
+class AddNewItemsInterface:
+  # @return [Array<MediaLogItem>]
+  def get_new_items(self):
+    try:
+      while True:
+        new_item = self.get_new_item()
+        yield(new_item)
+
+    except EOFError:
+      return
+
+  # @return [MediaLogItem]
+  def get_new_item(self):
+    title = input("Title? ")
+
+    with self.completer(item_types_completer):
+      type = input("Type? ")
+
+    author = input("Author? ")
+
+    with self.completer(current_date_completer):
+      date_completed = input("Date Completed? ")
+
+    return MediaLogItem(
+      title=title,
+      type=type,
+      author=author,
+      date_completed=date_completed
+    )
+
+  # @param [Function]
+  @contextlib.contextmanager
+  def completer(self, func):
+    old_completer = readline.get_completer()
+    readline.set_completer(func)
+    yield
+    readline.set_completer(old_completer)
+
+class DataStore:
+  FILENAME = "data/json/media_log.json"
+
+  # @param [MediaLogItem]
+  # @return [None]
+  def write(self, item):
+    media_log_items = self._read() + [item] # Put it on the end.
+    self._write_all(media_log_items, MediaLogItemJsonEncoder())
+
+  # @param [Array<MediaLogItem>]
+  # @param [json.JSONEncoder]
+  # @return [None]
+  def _write_all(self, media_log_items, encoder):
+    json_representation = encoder.encode({ 'objects': media_log_items })
+    
+    with open(self.FILENAME, 'w') as file:
+      print(json_representation, file=file)
+
+  # @return [Array<MediaLogItem>]
+  def _read(self):
+    results = []
+    with open(self.FILENAME) as file:
+      media_log_json = json.loads(file.read())
+
+      for json_object in media_log_json["objects"]:
+        results.append(MediaLogItem(**json_object))
+
+    return results
 
 if __name__ == "__main__":
-  source_filename = "data/json/media_log.json"
-  with open(source_filename) as file:
-    media_log_json = json.loads(file.read())
+  readline.parse_and_bind('tab: complete')
+  data_store = DataStore()
 
-    media_log_items = []
-    for json_object in media_log_json["objects"]:
-      snake_cased_json_object = {
-        inflection.underscore(key): value for key, value in json_object.items()
-      }
-      media_log_items.append(MediaLogItem(**snake_cased_json_object))
+  for new_item in AddNewItemsInterface().get_new_items():
+    data_store.write(new_item)
 
-  accept_new_item_from_user()
-  # write_back(media_log_items, "data/json/media_log_2.json")
+    print("***")
+    print("Added '{}'.".format(new_item.pretty_printed()))
+    print("***")
