@@ -47,6 +47,9 @@
 .small {
     font-size: 12px;
 }
+.display-block {
+    display: block;
+}
 .normal-line-height {
     line-height: 100%;
 }
