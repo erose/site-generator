@@ -62,23 +62,6 @@ class MediaLogItemJsonEncoder(json.JSONEncoder):
     else:
       return super().default(self, o)
 
-# TODO: Explain.
-# @param [String]
-# @param [Integer]
-# @return [String, None]
-def item_types_completer(text, state):
-  possible_types = sorted(string for string in MediaLogItem.TYPES if string.startswith(text))
-  return possible_types[state] if possible_types else None
-
-# TODO: Explain.
-# @param [String]
-# @param [Integer]
-# @return [String, None]
-def current_date_completer(_text, state):
-  current_date_formatted = date.today().isoformat()
-  if state > 0: return None
-  return current_date_formatted
-
 class AddNewItemsInterface:
   # @return [Array<MediaLogItem>]
   def get_new_items(self):
@@ -101,6 +84,7 @@ class AddNewItemsInterface:
 
     with self.completer(current_date_completer):
       date_completed = input("Date Completed? ")
+      date_completed = date_completed.strftime("%B %-d, %Y") # e.g. December 14, 2018
 
     return MediaLogItem(
       title=title,
@@ -116,6 +100,27 @@ class AddNewItemsInterface:
     readline.set_completer(func)
     yield
     readline.set_completer(old_completer)
+
+  # These 'completer' functions follow the readline API. For each unique string the user types in,
+  # they are called with state=0, with state=1, etc. Each result is displayed. They stop getting
+  # called when they return a non-string value.
+
+  # @param [String]
+  # @param [Integer]
+  # @return [String, None]
+  @classmethod
+  def item_types_completer(text, state):
+    possible_types = sorted(string for string in MediaLogItem.TYPES if string.startswith(text))
+    return possible_types[state] if possible_types else None
+
+  # @param [String]
+  # @param [Integer]
+  # @return [String, None]
+  @classmethod
+  def current_date_completer(_text, state):
+    current_date_formatted = date.today().isoformat()
+    if state > 0: return None
+    return current_date_formatted
 
 class DataStore:
   FILENAME = "data/json/media_log.json"
