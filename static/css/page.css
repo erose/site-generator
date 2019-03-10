@@ -1,9 +1,12 @@
 .page-header {
-    margin-bottom: 10px;
-    margin-top: 25px;
-    font-family: 'Linden Hill', Georgia, serif;
     text-align: center;
+
+    margin-bottom: 0.75rem;
+    margin-top: 1.25rem;
+    
+    font-family: 'Linden Hill', Georgia, serif;
 }
 .page-title {
-    font-size: 2em;
+    font-size: 2rem;
+    line-height: 100%; /* Match line height to font size. */
 }

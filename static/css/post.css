@@ -1,31 +1,32 @@
 .post-header {
-    margin-bottom: 10px;
-    margin-top: 25px;
-    font-family: 'Linden Hill', Georgia, serif;
     text-align: center;
-}
-.post-content {
-    overflow: hidden;
+
+    margin-bottom: 0.75rem;
+    margin-top: 1.25rem;
+    
+    font-family: 'Linden Hill', Georgia, serif;
 }
 .post-title {
-    font-size: 2em;
-    line-height: 1.0;
+    font-size: 2rem;
+    line-height: 100%; /* Match line height to font size. */
 }
 .post-tags {
-    font-size: 10pt;
+    font-size: 14px;
 }
 .post-date {
-    font-size: 10pt;
-    color: Gray;
+    font-size: 14px;
+    color: #808080;
 }
 .post-floating-image { /* Book covers, etc. in review-style posts. */
     float: right;
-    margin: 10px;
+    margin: 0.75rem;
 }
+
 blockquote {
     /* Mimic stackexchange block quote style. */
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #fff9e3;
-    border-left: 2px solid #ffeb8e;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+
+    background-color: #FFF9E3;
+    border-left: 2px solid #FFEB8E;
 }

@@ -8,14 +8,15 @@
     <div class="post-title">{{ title }}</div>
     <div class="post-date">{{ formatted_date }}</div>
 </div>
-<div class="post-content">
+<div>
     {{ content }}
 </div>
 <div class="post-tags">
     {% if tags %}
-    <b>Tags:</b> {% for tag in tags -%}
-        <a href="google.com">{{ tag.name }}</a>{% if not loop.last %},{% endif %}
-    {% endfor %}
+        <b>Tags:</b>
+        {% for tag in tags -%}
+            <a href="google.com">{{ tag.name }}</a>{% if not loop.last %},{% endif %}
+        {% endfor %}
     {% endif %}
 </div>
 {% endblock %}

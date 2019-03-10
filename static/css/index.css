@@ -1,9 +1,4 @@
 .summarized-post-title a {
     text-decoration: none;
-    color: black;
-}
-.icon {
-    width: 65px;
-    height: auto;
-    float: left;
+    color: #000000;
 }

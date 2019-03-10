@@ -1,45 +1,63 @@
 .container {
+    /* Keep the content left-aligned. */
     max-width: 650px;
 }
+
+/* Alternative link styles. */
 .container a {
-    color: Gray;
+    color: #808080;
 }
 .container a:hover {
-    color: LightGray;
+    color: #D3D3D3;
 }
-.content {
-    margin-left: 10px;
-    margin-right: 10px;
-    line-height: 150%;
-}
+
+
 .header {
     background-color: #DDDDFF;
     border-radius: 20px;
-    padding: 10px 10px 10px 10px;
+    padding: 0.75rem;
     font-family: 'Linden Hill', Georgia, serif;
 }
-.header .title {
-    color: white;
+.header a.title {
     text-decoration: none;
+    font-size: 2rem;
+
+    /* Create a cool "bubble letters" effect by setting the text color to white, and adding a black shadow. */
+    color: #FFFFFF;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-    font-size: 2em;
 }
+
+
+/* Page-specific content. */
+.content {
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+    line-height: 150%; /* More aesthetically pleasing. */
+}
+
+/* Some menu items may be dropdowns. These are implemented as display: none divs which get display:
+ block when their parent is hovered over. */
 .dropdown {
+    /* This is inline in the menu, but it needs to be the containing block for its child which has
+     position: absolute. */
     display: inline-block;
 }
 .dropdown-content {
+    display: none;
     position: absolute;
 
-    display: none;
-    line-height: 2em;
+    padding: 0.75rem;
+    background-color: #FFFFFF;
+    border: #DDDDFF 1px solid;
+
+    line-height: 2rem;
+    z-index: 1; /* Make sure to be drawn above all other content. No other CSS uses z-index on this site. */
 }
 .dropdown:hover .dropdown-content {
     display: block;
-    padding: 10px;
-    background-color: white;
-    border: #DDDDFF 1px solid;
 }
-/* Utility classes */
+
+/* Utility classes, not used in base.html but used elsewhere. */
 .centered {
     display: block;
     margin: 0 auto;
