@@ -13,6 +13,10 @@
 
 
 .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     background-color: #DDDDFF;
     border-radius: 20px;
     padding: 0.75rem;
@@ -25,6 +29,13 @@
     /* Create a cool "bubble letters" effect by setting the text color to white, and adding a black shadow. */
     color: #FFFFFF;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.rss-icon {
+    /* Needed to do the vertical centering correctly. */
+    display: block;
+
+    /* Orange is not the desired feel. */
+    filter: grayscale(100%);
 }
 
 
