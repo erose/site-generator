@@ -194,6 +194,11 @@ def serve():
 
 if __name__ == "__main__":
     if sys.argv[1] == "publish":
+        subprocess.check_call(
+            "stack generate-rss-feed.hs posts/*.md",
+            shell=True, # Necessary to get globbing to work.
+            stdout=open("rendered_site/rss.xml", "w")
+        )
         render()
     elif sys.argv[1] == "serve":
         serve()
