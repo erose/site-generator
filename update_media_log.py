@@ -8,6 +8,7 @@ import readline # This line causes it to be implicitly used by input(). It provi
 class MediaLogItem:
   ALBUM = 'album'
   NOVEL = 'novel'
+  ESSAYS = 'essays'
   NONFICTION = 'nonfiction'
   SHORT_STORIES = 'short stories'
   MOVIE = 'movie'
@@ -20,6 +21,7 @@ class MediaLogItem:
   TYPES = [
     ALBUM,
     NOVEL,
+    ESSAYS,
     NONFICTION,
     SHORT_STORIES,
     MOVIE,
