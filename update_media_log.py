@@ -2,8 +2,7 @@ import json
 import datetime
 from datetime import date
 import contextlib
-import readline # This line causes it to be implicitly used by input(). It provides better line-editing and history
-# functionality.
+import readline # This line causes it to be implicitly used by input(). It provides better line-editing and history functionality.
 
 class MediaLogItem:
   ALBUM = 'album'
