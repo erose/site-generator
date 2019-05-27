@@ -82,3 +82,9 @@
 .normal-line-height {
     line-height: 100%;
 }
+.margin-top.one-rem {
+    margin-top: 1rem;
+}
+.margin-top.two-rems {
+    margin-top: 2rem;
+}
