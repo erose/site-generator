@@ -40,7 +40,7 @@ def parse_md(file_obj):
     # A single blank line separates the options and the content.
     not_blank = lambda s: s.rstrip() != ''
     for line in itertools.takewhile(not_blank, file_obj):
-        key, value = line.rstrip().split(": ")
+        key, value = line.rstrip().split(": ", 1)
 
         if key == "Date":
             dt = parse_date(value)
