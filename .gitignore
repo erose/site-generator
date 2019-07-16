@@ -1,5 +1,6 @@
 *.py[cod]
 *.md
+tweet-blog-post.sh
 posts
 data
 static/images
