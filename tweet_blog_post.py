@@ -8,6 +8,7 @@ def get_title(filepath):
 
 def get_url(filepath):
     basename = os.path.basename(filepath)
+    basename = basename.replace('.md', '.html')
     return f"https://reallyeli.com/posts/{basename}"
 
 if __name__ == "__main__":
