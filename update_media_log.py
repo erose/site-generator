@@ -10,6 +10,7 @@ class MediaLogItem:
   ESSAYS = 'essays'
   NONFICTION = 'nonfiction'
   SHORT_STORIES = 'short stories'
+  SHORT_STORY = 'short story'
   MOVIE = 'movie'
   TV_SHOW = 'tv show'
   POETRY = 'poetry'
@@ -23,6 +24,7 @@ class MediaLogItem:
     ESSAYS,
     NONFICTION,
     SHORT_STORIES,
+    SHORT_STORY,
     MOVIE,
     TV_SHOW,
     POETRY,
