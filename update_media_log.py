@@ -9,6 +9,7 @@ class MediaLogItem:
   NOVEL = 'novel'
   ESSAYS = 'essays'
   NONFICTION = 'nonfiction'
+  ACADEMIC_PAPER = 'academic paper'
   SHORT_STORIES = 'short stories'
   SHORT_STORY = 'short story'
   MOVIE = 'movie'
@@ -23,6 +24,7 @@ class MediaLogItem:
     NOVEL,
     ESSAYS,
     NONFICTION,
+    ACADEMIC_PAPER,
     SHORT_STORIES,
     SHORT_STORY,
     MOVIE,
