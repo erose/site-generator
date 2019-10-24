@@ -11,7 +11,7 @@ TEMPLATES_DIR = 'templates'
 PAGE_NAMES = [
     "about.md", "turing.md", "fraction_pattern.md", "markov_text.md",
     "password_hasher.md", "media_log.md", "game_of_life.md", "quick_challenges.md",
-    "quotes.md"
+    "sierpinski_fermat.md", "quotes.md"
 ]
 PAGES_IN_DIR = '.'
 PAGES_OUT_DIR = OUTPUT_DIR
