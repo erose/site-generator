@@ -1,8 +1,10 @@
 import json
 import datetime
-from datetime import date
 import contextlib
 import readline # This line causes it to be implicitly used by input(). It provides better line-editing and history functionality.
+
+DATE_FORMAT_STRING = "%B %-d, %Y" # e.g. October 23, 2019
+DATE_FORMAT_STRING_FOR_STRPTIME = DATE_FORMAT_STRING.replace("%-d", "%d") # %-d (not-zero-padded decimal) is allowed for strftime but not strptime.
 
 class MediaLogItem:
   ALBUM = 'album'
@@ -42,7 +44,7 @@ class MediaLogItem:
     self.title = title
     self.type = type
     self.author = author
-    self.date_completed = date_completed
+    self.date_completed = datetime.datetime.strptime(date_completed, DATE_FORMAT_STRING_FOR_STRPTIME)
 
   # @return [Dictionary]
   def as_json(self):
@@ -50,7 +52,7 @@ class MediaLogItem:
       'title': self.title,
       'type': self.type,
       'author': self.author,
-      'date_completed': self.date_completed,
+      'date_completed': self.date_completed.strftime(DATE_FORMAT_STRING),
     }
 
   # @return [None]
@@ -89,14 +91,16 @@ class AddNewItemsInterface:
     author = input("Author? ")
 
     with self.completer(self.current_date_completer):
-      date_completed = datetime.datetime.fromisoformat(input("Date Completed? "))
-      date_completed = date_completed.strftime("%B %-d, %Y") # e.g. December 14, 2018
+      # In order to convert between formats (ISO to our own as defined by DATE_FORMAT_STRING), we
+      # need to convert to a Datetime object and then back to string.
+      date_completed_datetime = datetime.datetime.fromisoformat(input("Date Completed? "))
+      date_completed_string = date_completed_datetime.strftime(DATE_FORMAT_STRING)
 
     return MediaLogItem(
       title=title,
       type=type,
       author=author,
-      date_completed=date_completed
+      date_completed=date_completed_string
     )
 
   # @param [Function]
@@ -124,7 +128,7 @@ class AddNewItemsInterface:
   # @return [String, None]
   @staticmethod
   def current_date_completer(_text, state):
-    current_date_formatted = date.today().isoformat()
+    current_date_formatted = datetime.date.today().isoformat()
     if state > 0: return None
     return current_date_formatted
 
@@ -135,7 +139,9 @@ class DataStore:
   # @return [None]
   def write(self, item):
     media_log_items = self._read() + [item] # Put it on the end.
-    self._write_all(media_log_items, MediaLogItemJsonEncoder())
+    sorted_media_log_items = sorted(media_log_items, key=lambda item: item.date_completed)
+
+    self._write_all(sorted_media_log_items, MediaLogItemJsonEncoder())
 
   # @param [Array<MediaLogItem>]
   # @param [json.JSONEncoder]
