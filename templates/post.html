@@ -15,7 +15,7 @@
     {% if tags %}
         <b>Tags:</b>
         {% for tag in tags -%}
-            <a href="google.com">{{ tag.name }}</a>{% if not loop.last %},{% endif %}
+            <span>{{ tag.name }}{% if not loop.last %},{% endif %}</span>
         {% endfor %}
     {% endif %}
 </div>
