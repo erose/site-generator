@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, sys, glob, shutil, time, subprocess
+import os, sys, glob, shutil, time, subprocess, itertools
 from os.path import join, getmtime
 import util
 import markdown, jinja2
@@ -63,12 +63,26 @@ def render_main():
             data["name"].replace(".md", ".html")
         )
         # Truncate content to provide a preview.
-        data['content'] = util.first_n_tags(data['content'], 3)
+        data['content'] = extract_preview_from(data['content'])
 
         posts.append(data)
 
     with open(OUTPUT_DIR + '/index.html', "w", encoding="utf-8") as f:
         f.write(template.render(posts=posts))
+
+# Sometimes, we want to customize what content gets used as the "preview." In that situation, we'll
+# include this magic comment. It means "everything up until this point should be part of the
+# preview."
+END_PREVIEW_PRAGMA = '<!-- ENDPREVIEW -->'
+
+def extract_preview_from(htmlstring):
+    lines = htmlstring.split("\n")
+    if END_PREVIEW_PRAGMA in lines:
+        keep_going = lambda x: x != END_PREVIEW_PRAGMA
+        return "".join(itertools.takewhile(keep_going, lines))
+
+    # Otherwise, fall back to the first 3 HTML tags.
+    return util.first_n_tags(htmlstring, 3)
 
 def render_pages():
     """ Writes out pages into the output directory. """
