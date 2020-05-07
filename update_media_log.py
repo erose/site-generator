@@ -143,6 +143,16 @@ class DataStore:
 
     self._write_all(sorted_media_log_items, MediaLogItemJsonEncoder())
 
+  # @param [None]
+  # @return [None]
+  def print_last_few_items(self):
+    few = 5
+    print("Last {} items were:".format(few))
+    items = data_store._read()
+    for item in items[-few:]:
+      print([item.title, item.date_completed.strftime(DATE_FORMAT_STRING)])
+    print()
+
   # @param [Array<MediaLogItem>]
   # @param [json.JSONEncoder]
   # @return [None]
@@ -167,6 +177,10 @@ if __name__ == "__main__":
   readline.parse_and_bind('tab: complete')
   data_store = DataStore()
 
+  # Help me remember what I logged already.
+  data_store.print_last_few_items()
+
+  print("Enter new items")
   for new_item in AddNewItemsInterface().get_new_items():
     data_store.write(new_item)
 
