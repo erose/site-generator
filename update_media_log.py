@@ -17,7 +17,6 @@ class MediaLogItem:
   MOVIE = 'movie'
   TV_SHOW = 'tv show'
   POETRY = 'poetry'
-  DOCUMENTARY = 'documentary'
   WEBCOMIC = 'webcomic'
   COMIC = 'comic'
 
@@ -32,7 +31,6 @@ class MediaLogItem:
     MOVIE,
     TV_SHOW,
     POETRY,
-    DOCUMENTARY,
     WEBCOMIC,
     COMIC,
   ]
